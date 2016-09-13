@@ -1,0 +1,59 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/jquery.fileupload.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content -%}
+{%- if g.testing %}<div id="upload_site_234889"></div>{% endif -%}
+
+<script src="{{ url_for('static', filename='js/vendor/jquery.ui.widget.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.iframe-transport.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.fileupload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+
+<div class="container">
+        <!-- The fileinput-button span is used to style the file input field as button -->
+    <div class="container">
+        <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Select files...</span>
+            <!-- The file input field used as target for the file upload widget -->
+            <input id="fileupload" type="file" name="files[]" data-url="_upload" multiple>
+        </span>
+        <br>
+        <br>
+    </div>
+    <div id="dropzone" class="jumbotron">
+        Drop files here
+    </div>
+
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <div id="upload-section">
+        <h4>Uploaded:</h4>
+        <div class="table-responsive">
+            <table id="files-table" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Filename</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+
+    <br>
+</div>
+
+{%- endblock %}

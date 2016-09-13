@@ -1,0 +1,15 @@
+{% macro render_menuitem(link, text, faicon) %}
+<li>
+  <a href="{{ url_for(link) }}">
+      <i class="fa {{ faicon }} fa-fw" aria-hidden="true">
+      </i>&nbsp; {{ text }}
+  </a>
+</li>
+{% endmacro %}
+
+{% macro render_topbaritem(link, text, faicon) %}
+<li {%- if request.path == url_for(link) %} class="active"{% endif %}>
+                <a href="{{ url_for(link) }}">
+                <i class="fa {{ faicon }} fa-fw" aria-hidden="true"></i>&nbsp; {{ text }}</a>
+</li>
+{% endmacro %}

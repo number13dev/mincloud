@@ -1,0 +1,55 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='js/indexs.js') }}"></script>
+{% endblock %}
+{% block content -%}
+{%- if g.testing %}<div id="index_page_7890"></div>{% endif -%}
+{% if g.user.admin %}
+{%- if g.testing %}<div id="admin_index_page_2382"></div>{% endif -%}
+<p>You are a Admin - congrats!</p>
+{% endif %}
+
+
+{% if g.user.is_authenticated %}
+  <div id="responseinfo" class="alert alert-info hidden" role="alert">
+    <strong>User added!</strong><span id="response">response</span>
+  </div>
+<div class="row">
+{% for file in files %}
+    <div class="file-element" id="{{ file.unique_id }}">
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                {% if file.is_image %}
+                <img src="{{ request.host_url }}thumbs/{{ file.unique_id }}" alt="...">
+                {% endif %}
+                {% if not file.is_image %}
+                <center>{{ fa_mimetype(file.mimetype)|safe }}</center>
+                {% endif %}
+                <div class="caption">
+                <h3>Name: {{ file.name }}</h3>
+                <p>ID: {{ file.unique_id }}</p>
+                <p>Size: {{ file.hr_size }}</p>
+                <p>Created: {{ file.hr_time }}</p>
+                <p>Uploader: {{ file.hr_time }}</p>
+                <p>
+                    <a href="{{ request.host_url }}uploads/{{ file.unique_id }}"
+                      class="btn btn-success" role="button">Download <span class="badge">{{ file.dl_count }}</span></a>
+                    <form action="#" id="form-{{ file.unique_id }}">
+                        <input type="hidden" name="uniqueid" value="{{ file.unique_id }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </p>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endif %}
+
+
+{%- endblock %}
+

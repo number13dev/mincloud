@@ -1,0 +1,12 @@
+
+db_repository/
+.idea/
+admin_user.py
+app.db
+thumbnails-cache
+app/__pycache__/
+__pycache__/
+venv/
+*.pyc
+app_develop.db
+*.db

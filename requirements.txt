@@ -1,0 +1,12 @@
+flask
+flask-sqlalchemy
+flask-login
+flask-wtf
+pillow
+python-thumbnails
+humanize
+sqlalchemy
+werkzeug
+sqlalchemy-migrate
+gunicorn
+flask-testing

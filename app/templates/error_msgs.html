@@ -1,0 +1,42 @@
+    <div class="container">
+        {%- with errors = get_flashed_messages(category_filter=["error"]) %}
+        {%- if errors %}
+        {%- for msg in errors %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Oh snap!</strong>{{ msg }}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+        {% endfor -%}
+        {% endif -%}
+        {% endwith -%}
+        {%- with infos = get_flashed_messages(category_filter=["info"]) %}
+        {%- if infos %}
+        {%- for msg in infos %}
+        <div class="alert alert-info" role="alert">
+            <strong>Oh snap!</strong>{{ msg }}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+        {% endfor -%}
+        {% endif -%}
+        {% endwith -%}
+        {%- with warnings = get_flashed_messages(category_filter=["warning"]) %}
+        {%- if warnings %}
+        {%- for msg in warnings %}
+        <div class="alert alert-warning" role="alert">
+            <strong>Oh snap!</strong>{{ msg }}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+        {% endfor -%}
+        {% endif -%}
+        {% endwith -%}
+        {%- with successes = get_flashed_messages(category_filter=["success"]) %}
+        {%- if successes %}
+        {%- for msg in successes %}
+        <div class="alert alert-success" role="alert">
+            <strong>Oh snap!</strong>{{ msg }}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+        {% endfor -%}
+        {% endif -%}
+        {% endwith -%}
+    </div>

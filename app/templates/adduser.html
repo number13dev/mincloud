@@ -1,0 +1,32 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
+
+{% block content -%}
+{%- if g.testing %}<div id="add_user_page_23948"></div>{% endif -%}
+
+  <div id="responseinfo" class="alert alert-info hidden" role="alert">
+    <strong>User added!</strong><span id="response">response</span>
+  </div>
+<div class="container">
+  {% from "_formhelpers.html" import render_label %}
+  <form action="#" id="newuserform">
+    {{ form.hidden_tag() }}
+    {{ render_label(form.username) }}
+    {{ render_label(form.email) }}
+    {{ render_label(form.password) }}
+    {{ render_label(form.confirm) }}
+    {{ render_label(form.adminuser) }}
+    <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Add User</button>
+      </div>
+    </div>
+  </form>
+</div>
+{%- endblock %}
+
