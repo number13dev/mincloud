@@ -48,6 +48,9 @@ gunicorn --bind 127.0.0.1:8000 --workers=12 wsgi:myapp
  
  If you run the app in a Docker, change the gunicorn command in the `run.sh` to your needs.
  
+ Be sure to have access rights to: `/opt/mincloud/uploads` or change this Directory
+ 
+ 
  
 
 #### Setup Nginx as Proxy

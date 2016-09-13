@@ -39,6 +39,7 @@ class DevelopmentConfig(Config):
 class TestConfiguration(Config):
     SECRET_KEY = 'TEST_SECRET_KEY'
     _cwd = dirname(abspath(__file__))
+    UPLOAD_FOLDER = os.path.join(_cwd, 'uploadtest')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = True
