@@ -20,7 +20,7 @@ class AccountTest(BaseTest):
             self.assertTrue('Changed Information.' in str(rv.data))
             self.assertEqual('doe.john@example.com', user.email)
             self.assertEqual('j0hnny', user.username)
-            self.assertNotEquals(str(user.password), oldpw)
+            self.assertNotEqual(str(user.password), oldpw)
 
     def test_username_already_assigned(self):
         user = User(email='john.doe@example.com', password='john1234', username='johnny')
