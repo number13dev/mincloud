@@ -23,7 +23,7 @@ to leave virtualenv: `deactivate`
 To run the App just do:
 ```
 python3 db_create.py
-python3 admin_user.py
+python3 db_create_admin.py
 
 python3 wsgi.py
 ```
@@ -35,6 +35,20 @@ python3 admin_user.py
 pip3 install gunicorn
 gunicorn --bind 127.0.0.1:8000 --workers=12 wsgi:myapp
 ```
+
+#### Deploy App for Production
+ 
+ Change `SECRET_KEY` in `config.py` use a random for example:
+ ```
+ import os
+ os.urandom(24).encode('hex')
+ ```
+ 
+ Edit the admin and adminpassword in `db_create_admin.py` to your preference.
+ 
+ If you run the app in a Docker, change the gunicorn command in the `run.sh` to your needs.
+ 
+ 
 
 #### Setup Nginx as Proxy
 

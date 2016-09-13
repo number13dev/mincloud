@@ -4,7 +4,6 @@ from os.path import dirname, abspath
 
 class Config(object):
     WTF_CSRF_ENABLED = True
-    SECRET_KEY = 'SECRET_KEY'
     APP_NAME = 'MinCloud'
     UPLOAD_FOLDER = '/opt/mincloud/uploads'
     ALLOWED_EXTENSIONS = {'txt', 'zip', 'exe',
@@ -38,6 +37,7 @@ class DevelopmentConfig(Config):
 
 
 class TestConfiguration(Config):
+    SECRET_KEY = 'TEST_SECRET_KEY'
     _cwd = dirname(abspath(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
