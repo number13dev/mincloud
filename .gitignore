@@ -10,3 +10,4 @@ venv/
 *.pyc
 app_develop.db
 *.db
+uploadtest
