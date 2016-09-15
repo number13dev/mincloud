@@ -1,4 +1,5 @@
 import os
+import traceback
 import uuid
 
 import flask_login
@@ -76,6 +77,9 @@ def _adduser():
                         elif 'user.email' in str(e):
                             return jsonify(response=responds["EMAIL_RESERVED"])
                     else:
+                        print('>>> traceback <<<')
+                        traceback.print_exc()
+                        print('>>> end of traceback <<<')
                         return jsonify(response=responds['SOME_ERROR'])
 
                 return jsonify(response=('New User ' + newuser.username + ' added.'))
