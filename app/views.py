@@ -70,16 +70,15 @@ def _adduser():
                     session.add(newuser)
                     session.commit()
                 except Exception as e:
+                    print(e)
                     session.rollback()
-                    if 'UNIQUE' in str(e):
-                        if 'user.username' in str(e):
+                    if ('UNIQUE constraint failed' in str(e)) or ('is not unique' in str(e)):
+                        if ('user.username' in str(e)) or ('column username' in str(e)):
                             return jsonify(response=responds["USERNAME_RESERVED"])
-                        elif 'user.email' in str(e):
+                        elif ('user.email' in str(e)) or ('column email' in str(e)):
                             return jsonify(response=responds["EMAIL_RESERVED"])
                     else:
-                        print('>>> traceback <<<')
-                        traceback.print_exc()
-                        print('>>> end of traceback <<<')
+                        print(e)
                         return jsonify(response=responds['SOME_ERROR'])
 
                 return jsonify(response=('New User ' + newuser.username + ' added.'))
