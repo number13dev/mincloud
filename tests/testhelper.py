@@ -3,7 +3,6 @@ from io import BytesIO
 from flask import json
 
 
-
 def change_account(cl, email, username, newpassword, oldpassword):
     return cl.post('/_account', data=json.dumps(dict(
         email=email,
@@ -43,6 +42,11 @@ def upload_file(cl):
     data = {'files[]': (BytesIO(b"fdjasdfjksjkadf"), 'testing_134.txt')}
 
     return cl.post('/_upload', data=data, follow_redirects=True,
+                   content_type='multipart/form-data')
+
+
+def delete_file(cl, id):
+    return cl.post('/api/delete', data=json.dumps(dict(uniqueid=id)), follow_redirects=True,
                    content_type='multipart/form-data')
 
 

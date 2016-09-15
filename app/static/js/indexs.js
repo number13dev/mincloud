@@ -25,7 +25,7 @@ $(".file-element").each( function() {
     });
 
     $(fid).submit(function(e) {
-        $.getJSON('/delete', {
+        $.getJSON('/api/delete', {
             uniqueid: id
         },
         function(data) {

@@ -33,11 +33,17 @@
                 <p>Uploader: {{ file.uploader_name }}</p>
                 <p>
                     <a id="link-{{ file.unique_id }}" href="{{ request.host_url }}uploads/{{ file.unique_id }}"
-                      class="btn btn-success" role="button">Download <span id="dlcount-{{ file.unique_id }}" class="badge">{{ file.dl_count }}</span></a>
+                      class="btn btn-success" role="button">Download
+                        <span id="dlcount-{{ file.unique_id }}" class="badge">
+                            {{ file.dl_count }}
+                        </span>
+                    </a>
+                    {%- if g.user.admin or (g.user.id == file.uploader_id) %}
                     <form action="#" id="form-{{ file.unique_id }}">
                         <input type="hidden" name="uniqueid" value="{{ file.unique_id }}">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    {% endif -%}
                 </p>
               </div>
             </div>

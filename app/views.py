@@ -212,23 +212,27 @@ def get_thumb(uniqueid):
         return
 
 
-@myapp.route('/delete')
+@myapp.route('/api/delete')
 @flask_login.login_required
 def api_delete():
     uniqueid = request.args.get("uniqueid")
+    file = File.query.filter_by(unique_id=uniqueid).first()
 
-    upload_folder = myapp.config['UPLOAD_FOLDER']
-    try:
-        file = File.query.filter_by(unique_id=uniqueid).first()
-        folder = os.path.join(upload_folder, file.unique_id)
-        cmpl_path = os.path.join(folder, file.name)
-        os.remove(cmpl_path)
-        os.rmdir(folder)
-        db.session.delete(file)
-        db.session.commit()
-        return jsonify(response=responds['FILE_DELETED'])
-    except Exception:
-        return jsonify(response=responds['SOME_ERROR'])
+    if g.user.admin or (g.user.id == file.uploader_id):
+        upload_folder = myapp.config['UPLOAD_FOLDER']
+        try:
+            folder = os.path.join(upload_folder, file.unique_id)
+            cmpl_path = os.path.join(folder, file.name)
+            os.remove(cmpl_path)
+            os.rmdir(folder)
+            db.session.delete(file)
+            db.session.commit()
+            return jsonify(response=responds['FILE_DELETED'])
+        except Exception as e:
+            print(e)
+            return jsonify(response=responds['SOME_ERROR'])
+    else:
+        return jsonify(response=responds['FAILED_AUTHORIZATION'])
 
 
 @myapp.route('/api/dlcount')

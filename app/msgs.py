@@ -7,7 +7,8 @@ responds = {
     'FILETYPE_NOT_ALLOWED': 'Filetype not allowed!',
     'FILE_DELETED': 'File deleted',
     'BAD_REQUEST': 'Bad request!',
-    'INFO_CHANGED': 'Changed Information.'
+    'INFO_CHANGED': 'Changed Information.',
+    'FAILED_AUTHORIZATION': 'Failed authorization!'
 
 }
 
