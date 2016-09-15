@@ -44,8 +44,13 @@ class NewAccountTest(BaseTest):
 
             rv = add_new_user(c, 'johnny', 'admin@example.com', '1234', 'y')
             # shouldRespond = b'{\n  "response": "Username already reserved, try another one."\n}\n'
+            print("################################################\n rv data: \n" + str(rv.data))
+            print("################################################")
             self.assertTrue(responds['USERNAME_RESERVED'] in str(rv.data))
+
             rv = add_new_user(c, 'admin', 'john.doe@example.com', '1234', 'y')
+            print("################################################\n rv data: \n" + str(rv.data))
+            print("################################################")
             self.assertTrue(responds['EMAIL_RESERVED'] in str(rv.data))
 
     def test_new_nonadminacc(self):
