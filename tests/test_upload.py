@@ -37,8 +37,7 @@ class TestUpload(BaseTest):
             data = {'files[]': testfile}
 
             rv = c.post('/_upload', data=data, follow_redirects=True,
-                   content_type='multipart/form-data')
-            print(rv)
+                        content_type='multipart/form-data')
 
             ret = rv.json['files'][0]
             self.assertEqual('testing_134.txt', ret['name'])

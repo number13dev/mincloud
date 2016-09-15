@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>MinCloud</title>
 
     <!-- Styles -->
@@ -46,7 +45,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {{ render_topbaritem('index', 'Home', 'fa-home') }}
-                {% if g.user.is_authenticated -%}
+                {%- if g.user.is_authenticated %}
                 {{ render_topbaritem('upload', 'Upload', 'fa-cloud-upload') }}
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs fa-fw" aria-hidden="true">
@@ -54,36 +53,32 @@
                       <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu">
-                      {% if g.user.admin -%}
-                        {{ render_menuitem('adduser', 'Add User', 'fa-user-plus') }}
-                      {% endif %}
+                      {%- if g.user.admin -%}
+                      {{ render_menuitem('adduser', 'Add User', 'fa-user-plus') }}
+                      {% endif -%}
                       {{ render_menuitem('account', 'Account', 'fa-user') }}
                       <!--<li role="separator" class="divider"></li>-->
                   </ul>
                 </li>
                 <li>
-                {%- endif %}
-                    {% if g.user.is_authenticated -%}
+                {% endif -%}
+                    {%- if g.user.is_authenticated -%}
                     {{ render_topbaritem('logout', 'Logout', 'fa-sign-out') }}
                     {% else %}
                     {{ render_topbaritem('login', 'Login', 'fa-sign-in') }}
-                {%- endif %}
+                {% endif -%}
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-
 {% include 'error_msgs.html' %}
-
 <!-- Begin page content -->
 <div class="container">
 {% block content -%}
-{%- endblock %}
+{% endblock -%}
 </div>
-
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>$.fn.modal || document.write('<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}">\x3C/script>')</script>
-
     </body>
 </html>

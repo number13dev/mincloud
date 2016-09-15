@@ -15,6 +15,7 @@ from thumbnails import get_thumbnail
 from app import myapp, lm, db, csrf
 from app.forms import LoginForm, AddUser, EditUser
 from app.helpers import fa_mimetype
+from app.msgs import responds
 from .models import User, File
 
 
@@ -52,7 +53,6 @@ def adduser():
 @myapp.route('/_adduser', methods=['GET', 'POST'])
 @flask_login.login_required
 def _adduser():
-
     if request.method == 'POST':
         if g.user.admin:
             form = AddUser()
@@ -72,13 +72,13 @@ def _adduser():
                     session.rollback()
                     if 'UNIQUE' in str(e):
                         if 'user.username' in str(e):
-                            return jsonify(response='Username already reserved, try another one.')
+                            return jsonify(response=responds["USERNAME_RESERVED"])
                         elif 'user.email' in str(e):
-                            return jsonify(response='E-Mail already reserved, try another one.')
+                            return jsonify(response=responds["EMAIL_RESERVED"])
 
                 return jsonify(response=('New User ' + newuser.username + ' added.'))
             else:
-                return jsonify(response='Could not validate.')
+                return jsonify(response=responds["FAILED_VALIDATION"])
 
 
 @myapp.route('/account')
@@ -111,11 +111,11 @@ def _account():
                 session.rollback()
                 if 'UNIQUE' in str(e):
                     if 'user.username' in str(e):
-                        return jsonify(response='Username already reserved, try another one.')
+                        return jsonify(response=responds["USERNAME_RESERVED"])
                     elif 'user.email' in str(e):
-                        return jsonify(response='E-Mail already reserved, try another one.')
+                        return jsonify(response=responds["EMAIL_RESERVED"])
 
-    return jsonify(response='Something went wrong.')
+    return jsonify(response=responds["SOME_FAIL"])
 
 
 def allowed_file(filename):
@@ -193,7 +193,7 @@ def _upload():
             return jsonify(files=[file])
 
         else:
-            return jsonify(files=[{"name": file_name, "error": "Filetype not allowed!"}])
+            return jsonify(files=[{"name": file_name, "error": responds['FILETYPE_NOT_ALLOWED']}])
 
 
 @myapp.route('/thumbs/<uniqueid>')
@@ -223,9 +223,20 @@ def api_delete():
         os.rmdir(folder)
         db.session.delete(file)
         db.session.commit()
-        return jsonify(response='File deleted')
+        return jsonify(response=responds['FILE_DELETED'])
     except Exception:
-        return jsonify(response='Error')
+        return jsonify(response=responds['SOME_ERROR'])
+
+
+@myapp.route('/api/dlcount')
+@flask_login.login_required
+def api_dlcount():
+    uniqueid = request.args.get('uniqueid')
+    try:
+        file = File.query.filter_by(unique_id=uniqueid).first()
+        return jsonify(response={'dl_count': file.dl_count})
+    except Exception:
+        return jsonify(response=responds['SOME_ERROR'])
 
 
 @myapp.route('/uploads/<uniqueid>')
@@ -240,7 +251,7 @@ def uploaded_file(uniqueid):
         filename = file.name
         return send_from_directory(path, filename, as_attachment=True)
     except Exception:
-        return 'Bad request'
+        return jsonify(response=responds['BAD_REQUEST'])
 
 
 @myapp.route("/logout")
@@ -270,9 +281,9 @@ def login():
                     flask_login.login_user(user)
                     return redirect(url_for('index'))
                 else:
-                    flash('Failed validation', 'error')
+                    flash(responds['FAILED_VALIDATION'], 'error')
         else:
-            flash('Failed validation', 'error')
+            flash(responds['FAILED_VALIDATION'], 'error')
 
     return render_template('login.html',
                            title='Sign In',

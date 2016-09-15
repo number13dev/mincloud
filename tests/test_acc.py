@@ -1,5 +1,6 @@
 from app import db
 from app.models import User
+from app.msgs import responds
 from tests.test_base import BaseTest
 from tests.testhelper import login, change_account
 
@@ -17,7 +18,7 @@ class AccountTest(BaseTest):
             self.assertTrue(("dj29skalWka" in str(rv.data)))
             oldpw = str(user.password)
             rv = change_account(c, 'doe.john@example.com', 'j0hnny', 'passw0rd', 'john1234')
-            self.assertTrue('Changed Information.' in str(rv.data))
+            self.assertTrue(responds['INFO_CHANGED'] in str(rv.data))
             self.assertEqual('doe.john@example.com', user.email)
             self.assertEqual('j0hnny', user.username)
             self.assertNotEqual(str(user.password), oldpw)
@@ -35,7 +36,7 @@ class AccountTest(BaseTest):
             rv = c.get('/account', follow_redirects=True)
             self.assertTrue(("dj29skalWka" in str(rv.data)))
             rv = change_account(c, 'doe.john@example.com', 'foo', 'passw0rd', 'john1234')
-            self.assertTrue('Username already reserved, try another one.' in str(rv.data))
+            self.assertTrue(responds['USERNAME_RESERVED'] in str(rv.data))
 
     def test_email_already_assigned(self):
         user = User(email='john.doe@example.com', password='john1234', username='johnny')
@@ -56,12 +57,13 @@ class AccountTest(BaseTest):
 
             # try to set our e-mail to email from qoo
             rv = change_account(c, 'qoo@qoo.com', 'hjkkhj', 'passw0rd', 'john1234')
-            self.assertTrue('E-Mail already reserved, try another one.' in str(rv.data))
+            self.assertTrue(responds['EMAIL_RESERVED'] in str(rv.data))
+
             self.assertNotEqual('hjkkhj', user.username)
             self.assertNotEqual('qoo@qoo.com', user.email)
 
     def test_empty_fields(self):
         rv = change_account(self.client, '', '', '', '')
-        self.assertTrue('Something went wrong.' in str(rv.data))
+        self.assertTrue(responds['SOME_FAIL'] in str(rv.data))
 
 

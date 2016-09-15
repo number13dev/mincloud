@@ -1,20 +1,30 @@
 $(function() {
-console.log("entry...");
 
 $(".file-element").each( function() {
     console.log($(this))
 
     var hash = "#";
     var formd = "form-";
+    var linkd = "link-";
+    var dlcount = "dlcount-";
     var id = $('input[name="uniqueid"]', this).val();
     var cid = hash.concat(id);
-    var codo = formd.concat(id);
-    var fid = hash.concat(codo);
+    var fid = hash.concat(formd.concat(id));
+    var lid = hash.concat(linkd.concat(id));
+    var dlcid = hash.concat(dlcount.concat(id));
 
-    console.log("variables: fid:"+fid+" id:"+id);
+    $(lid).bind('click', function() {
+    	setTimeout(function() {
+    		$.getJSON('/api/dlcount', {
+    		uniqueid: id
+			}, function(data) {
+				$(dlcid).text(data.response.dl_count);
+			})
+    	}, 50);
+
+    });
 
     $(fid).submit(function(e) {
-        console.log("other form xD tohide:" + cid);
         $.getJSON('/delete', {
             uniqueid: id
         },
