@@ -1,5 +1,8 @@
+from flask import jsonify
+
 from app import db
 from app.models import User
+from app.msgs import responds
 from tests.test_base import BaseTest
 from tests.testhelper import login, add_new_user
 
@@ -40,10 +43,10 @@ class NewAccountTest(BaseTest):
             self.assertTrue("add_user_page_23948" in str(rv.data))
 
             rv = add_new_user(c, 'johnny', 'admin@example.com', '1234', 'y')
-            self.assertTrue('Username already reserved, try another one.' in str(rv.data))
-
+            # shouldRespond = b'{\n  "response": "Username already reserved, try another one."\n}\n'
+            self.assertTrue(responds['USERNAME_RESERVED'] in str(rv.data))
             rv = add_new_user(c, 'admin', 'john.doe@example.com', '1234', 'y')
-            self.assertTrue('E-Mail already reserved, try another one.' in str(rv.data))
+            self.assertTrue(responds['EMAIL_RESERVED'] in str(rv.data))
 
     def test_new_nonadminacc(self):
         user = User(email='john.doe@example.com', password='john1234', username='johnny')

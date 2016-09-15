@@ -24,7 +24,6 @@ class File(db.Model):
         self.size = filesize
         self.dl_count = 0
         self.upload_time = time.time()
-        # self.file_uploader_id = User.query.filter_by(id=file_uploader)
 
     @property
     def is_image(self):
@@ -40,6 +39,11 @@ class File(db.Model):
     @property
     def hr_time(self):
         return humanize.naturaltime(time.time() - self.upload_time)
+
+    @property
+    def uploader_name(self):
+        user = User.query.filter_by(id=self.uploader_id).first()
+        return str(user.username)
 
 
 class User(db.Model):
@@ -79,7 +83,7 @@ class User(db.Model):
         return check_password_hash(self.password, password)
 
     def get_id(self):
-        return str(self.id)  # python 3
+        return str(self.id)
 
     def __repr__(self):
         return '<User %r>' % self.username
