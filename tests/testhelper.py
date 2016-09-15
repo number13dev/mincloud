@@ -28,7 +28,7 @@ def add_new_user(cl, username, email, password, adminuser=None):
             email=email,
             password=password,
             confirm=password
-        )), content_type='application/json')
+        )), content_type='application/json', follow_redirects=True)
     else:
         return cl.post('/_adduser', data=json.dumps(dict(
             username=username,
@@ -36,7 +36,7 @@ def add_new_user(cl, username, email, password, adminuser=None):
             password=password,
             confirm=password,
             adminuser=adminuser
-        )), content_type='application/json')
+        )), content_type='application/json', follow_redirects=True)
 
 
 def upload_file(cl):

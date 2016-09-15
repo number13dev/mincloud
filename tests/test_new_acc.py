@@ -1,3 +1,4 @@
+import flask_login
 from flask import jsonify
 
 from app import db
@@ -41,11 +42,17 @@ class NewAccountTest(BaseTest):
             self.assertTrue('index_page_7890' in str(rv.data))
             rv = c.get('/adduser', follow_redirects=True)
             self.assertTrue("add_user_page_23948" in str(rv.data))
+            #check if logged in
+            self.assertEqual(flask_login.current_user, user)
 
-            rv = add_new_user(c, 'johnny', 'admin@example.com', '1234', 'y')
-            # shouldRespond = b'{\n  "response": "Username already reserved, try another one."\n}\n'
+            rv = add_new_user(c, 'johnny', 'someemail@example.com', '1234', 'y')
+            print("rv data: \n" + str(rv.data))
+            print("################################################")
             self.assertTrue(responds['USERNAME_RESERVED'] in str(rv.data))
+
             rv = add_new_user(c, 'admin', 'john.doe@example.com', '1234', 'y')
+            print("rv data: \n" + str(rv.data))
+            print("################################################")
             self.assertTrue(responds['EMAIL_RESERVED'] in str(rv.data))
 
     def test_new_nonadminacc(self):

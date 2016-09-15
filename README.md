@@ -1,4 +1,4 @@
-# MinCloud
+# MinCloud :cloud:
 [![Build Status](https://travis-ci.org/number13dev/mincloud.svg?branch=master)](https://travis-ci.org/number13dev/mincloud)
 
 MinCloud is a file sharing web application build with Flask for small 

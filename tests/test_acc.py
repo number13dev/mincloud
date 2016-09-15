@@ -36,6 +36,8 @@ class AccountTest(BaseTest):
             rv = c.get('/account', follow_redirects=True)
             self.assertTrue(("dj29skalWka" in str(rv.data)))
             rv = change_account(c, 'doe.john@example.com', 'foo', 'passw0rd', 'john1234')
+            print("rv data: \n" + str(rv.data))
+            print("################################################")
             self.assertTrue(responds['USERNAME_RESERVED'] in str(rv.data))
 
     def test_email_already_assigned(self):
@@ -56,7 +58,9 @@ class AccountTest(BaseTest):
             self.assertTrue(("dj29skalWka" in str(rv.data)))
 
             # try to set our e-mail to email from qoo
-            rv = change_account(c, 'qoo@qoo.com', 'hjkkhj', 'passw0rd', 'john1234')
+            rv = change_account(c, 'qoo@qoo.com', 'somefakeusername', 'passw0rd', 'john1234')
+            print("rv data: \n" + str(rv.data))
+            print("################################################")
             self.assertTrue(responds['EMAIL_RESERVED'] in str(rv.data))
 
             self.assertNotEqual('hjkkhj', user.username)
