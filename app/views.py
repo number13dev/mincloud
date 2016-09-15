@@ -68,13 +68,15 @@ def _adduser():
                 try:
                     session.add(newuser)
                     session.commit()
-                except IntegrityError as e:
+                except Exception as e:
                     session.rollback()
                     if 'UNIQUE' in str(e):
                         if 'user.username' in str(e):
                             return jsonify(response=responds["USERNAME_RESERVED"])
                         elif 'user.email' in str(e):
                             return jsonify(response=responds["EMAIL_RESERVED"])
+                    else:
+                        return jsonify(response=responds['SOME_ERROR'])
 
                 return jsonify(response=('New User ' + newuser.username + ' added.'))
             else:
