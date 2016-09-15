@@ -70,16 +70,8 @@ def _adduser():
                     session.add(newuser)
                     session.commit()
                 except Exception as e:
-                    print(e)
                     session.rollback()
-                    if ('UNIQUE constraint failed' in str(e)) or ('is not unique' in str(e)):
-                        if ('user.username' in str(e)) or ('column username' in str(e)):
-                            return jsonify(response=responds["USERNAME_RESERVED"])
-                        elif ('user.email' in str(e)) or ('column email' in str(e)):
-                            return jsonify(response=responds["EMAIL_RESERVED"])
-                    else:
-                        print(e)
-                        return jsonify(response=responds['SOME_ERROR'])
+                    return ret_dbfail_response(e)
 
                 return jsonify(response=('New User ' + newuser.username + ' added.'))
             else:
@@ -114,13 +106,19 @@ def _account():
                 return jsonify(response='Changed Information.')
             except IntegrityError as e:
                 session.rollback()
-                if 'UNIQUE' in str(e):
-                    if 'user.username' in str(e):
-                        return jsonify(response=responds["USERNAME_RESERVED"])
-                    elif 'user.email' in str(e):
-                        return jsonify(response=responds["EMAIL_RESERVED"])
+                return ret_dbfail_response(e)
 
     return jsonify(response=responds["SOME_FAIL"])
+
+
+def ret_dbfail_response(e):
+    if ('UNIQUE constraint failed' in str(e)) or ('is not unique' in str(e)):
+        if ('user.username' in str(e)) or ('column username' in str(e)):
+            return jsonify(response=responds["USERNAME_RESERVED"])
+        elif ('user.email' in str(e)) or ('column email' in str(e)):
+            return jsonify(response=responds["EMAIL_RESERVED"])
+
+    return jsonify(response=responds['SOME_ERROR'])
 
 
 def allowed_file(filename):
