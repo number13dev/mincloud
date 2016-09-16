@@ -5,7 +5,7 @@ MinCloud is a file sharing web application build with Flask for small
 groups and users, which prefer simplicity over extensive featues.
 
 ## Quick Start
-### with [Docker](https://github.com/docker/docker)
+### with [Docker](https://hub.docker.com/r/number13/mincloud/)
 Build the Image: `sudo docker build --no-cache=true -t mincloud .`
 
 Run: `docker run -p 8000:8000 -v /YOURLOCALPATH:/opt/mincloud -i -t mincloud`
