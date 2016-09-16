@@ -15,4 +15,4 @@ RUN pip3 install -r requirements.txt
 RUN chmod +x run.sh
 
 EXPOSE 8000
-CMD ["/FlaskLogin/run.sh"]
+CMD ["/mincloud/run.sh"]
