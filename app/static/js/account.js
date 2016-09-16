@@ -3,7 +3,7 @@ $(function() {
 var other_form = function(e) {
 		var toSentData = $("form").serialize();
 
-		$.post('/_account', toSentData, function(data) {
+		$.post('/api/account', toSentData, function(data) {
 				$('#response').text(data.response);
 				$('#responseinfo').removeClass('hidden');
 				$('#responseinfo').delay(10000).fadeOut(300);

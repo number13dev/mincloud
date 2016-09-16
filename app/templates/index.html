@@ -8,17 +8,31 @@
 {%- if g.testing %}<div id="index_page_7890"></div>{% endif -%}
 {%- if g.user.admin %}
 {%- if g.testing %}<div id="admin_index_page_2382"></div>{% endif -%}
-{% from "_helpers.html" import render_element %}
 <p>You are a Admin - congrats!</p>
 {% endif -%}
+{% from "_helpers.html" import render_element %}
 {%- if g.user.is_authenticated %}
   <div id="responseinfo" class="alert alert-info hidden" role="alert">
-    <strong>User added!</strong><span id="response">response</span>
+    <strong>Info!</strong><span id="response">response</span>
   </div>
-<div class="row">
-{%- for file in files %}
-{{ render_element(file, fa_mimetype) }}
-{% endfor -%}
-</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Id</th>
+        <th>Size</th>
+        <th>Created</th>
+        <th>Uploader</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {%- for file in files %}
+        {{ render_element(file, fa_mimetype) }}
+        {% endfor -%}
+    </tbody>
+</table>
 {% endif -%}
 {% endblock -%}

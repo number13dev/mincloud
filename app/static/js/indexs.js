@@ -32,7 +32,7 @@ $(".file-element").each( function() {
             $('#response').text(data.response);
             $('#responseinfo').removeClass('hidden');
             $('#responseinfo').delay(10000).addClass('hidden')
-            $(cid).fadeOut(100);
+            $(cid).fadeOut(500);
         });
         return false;
     });

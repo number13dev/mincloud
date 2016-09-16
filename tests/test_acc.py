@@ -18,6 +18,7 @@ class AccountTest(BaseTest):
             self.assertTrue(("dj29skalWka" in str(rv.data)))
             oldpw = str(user.password)
             rv = change_account(c, 'doe.john@example.com', 'j0hnny', 'passw0rd', 'john1234')
+            print("rv.data: " + str(rv.data))
             self.assertTrue(responds['INFO_CHANGED'] in str(rv.data))
             self.assertEqual('doe.john@example.com', user.email)
             self.assertEqual('j0hnny', user.username)
@@ -59,8 +60,7 @@ class AccountTest(BaseTest):
 
             # try to set our e-mail to email from qoo
             rv = change_account(c, 'qoo@qoo.com', 'somefakeusername', 'passw0rd', 'john1234')
-            print("rv data: \n" + str(rv.data))
-            print("################################################")
+            print("rv data: " + str(rv.data))
             self.assertTrue(responds['EMAIL_RESERVED'] in str(rv.data))
 
             self.assertNotEqual('hjkkhj', user.username)

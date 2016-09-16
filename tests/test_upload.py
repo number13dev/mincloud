@@ -36,7 +36,7 @@ class TestUpload(BaseTest):
             testfile = (io.BytesIO(testfile_bytes), 'testing_134.txt')
             data = {'files[]': testfile}
 
-            rv = c.post('/_upload', data=data, follow_redirects=True,
+            rv = c.post('/api/upload', data=data, follow_redirects=True,
                         content_type='multipart/form-data')
 
             ret = rv.json['files'][0]

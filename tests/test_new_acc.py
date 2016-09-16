@@ -18,7 +18,7 @@ class NewAccountTest(BaseTest):
         with self.client as c:
             rv = login(c, 'johnny', 'john1234')
             self.assertTrue('admin_index_page_2382' in str(rv.data))
-            rv = c.get('/adduser', follow_redirects=True)
+            rv = c.get('/admin/adduser', follow_redirects=True)
             self.assertTrue("add_user_page_23948" in str(rv.data))
 
             rv = add_new_user(c, 'admin', 'admin@example.com', '1234', True)
@@ -40,7 +40,7 @@ class NewAccountTest(BaseTest):
         with self.client as c:
             rv = login(c, 'johnny', 'john1234')
             self.assertTrue('index_page_7890' in str(rv.data))
-            rv = c.get('/adduser', follow_redirects=True)
+            rv = c.get('/admin/adduser', follow_redirects=True)
             self.assertTrue("add_user_page_23948" in str(rv.data))
             #check if logged in
             self.assertEqual(flask_login.current_user, user)
@@ -65,7 +65,7 @@ class NewAccountTest(BaseTest):
         with self.client as c:
             rv = login(c, 'johnny', 'john1234')
             self.assertTrue('index_page_7890' in str(rv.data))
-            rv = c.get('/adduser', follow_redirects=True)
+            rv = c.get('/admin/adduser', follow_redirects=True)
             self.assertTrue("add_user_page_23948" in str(rv.data))
 
             rv = add_new_user(c, 'noadmin', 'noadmin@example.com', '1234')

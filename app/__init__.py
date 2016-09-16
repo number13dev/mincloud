@@ -11,4 +11,4 @@ lm.init_app(myapp)
 csrf = CsrfProtect()
 csrf.init_app(myapp)
 
-from app import views, models
+from app import views, models, api, adminviews
