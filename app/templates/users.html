@@ -1,0 +1,33 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+{% block content -%}
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Users</div>
+  <!-- Table -->
+  <table class="table">
+      <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>E-Mail</th>
+            <th>Admin?</th>
+        </tr>
+      </thead>
+      <tbody>
+      {%- for user in users %}
+      <tr>
+          <th scope="row">{{ user.id }}</th>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.admin }}</td>
+      </tr>
+      {% endfor -%}
+      </tbody>
+  </table>
+</div>
+
+
+
+{%- endblock %}

@@ -6,7 +6,6 @@
                       </a>
                     </li>
 {% endmacro -%}
-
 {%- macro render_topbaritem(link, text, faicon) %}
             <li {%- if request.path == url_for(link) %} class="active"{% endif -%}>
                 <a href="{{ url_for(link) }}">

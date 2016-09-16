@@ -296,3 +296,13 @@ def login():
                            title='Sign In',
                            form=form
                            )
+
+
+@myapp.route('/admin/showusers', methods=['GET', 'POST'])
+@flask_login.login_required
+def showusers():
+    if g.user.admin:
+        users = User.query.all()
+        return render_template('users.html', users=users)
+    else:
+        return redirect(url_for('index'))

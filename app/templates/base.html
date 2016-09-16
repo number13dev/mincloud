@@ -55,6 +55,7 @@
                   <ul class="dropdown-menu">
                       {%- if g.user.admin -%}
                       {{ render_menuitem('adduser', 'Add User', 'fa-user-plus') }}
+                      {{ render_menuitem('showusers', 'Show Users', 'fa-users') }}
                       {% endif -%}
                       {{ render_menuitem('account', 'Account', 'fa-user') }}
                       <!--<li role="separator" class="divider"></li>-->
