@@ -1,15 +1,15 @@
-# MinCloud :cloud:
+# MinCloud 
 [![Build Status](https://travis-ci.org/number13dev/mincloud.svg?branch=master)](https://travis-ci.org/number13dev/mincloud)
 
-MinCloud is a file sharing web application build with Flask for small 
-groups and users, which prefer simplicity over extensive featues.
+MinCloud :cloud: is a file sharing web application build with Flask for small 
+groups and users, which prefer simplicity over extensive features.
 
-## Quick Start
+
+
+## Getting Started
 ### with [Docker](https://hub.docker.com/r/number13/mincloud/)
-Build the Image: `sudo docker build --no-cache=true -t mincloud .`
 
-Run: `docker run -p 8000:8000 -v /YOURLOCALPATH:/opt/mincloud -i -t mincloud`
-
+Run: `docker run -p 8000:8000 -v /YOURLOCALPATH:/opt/mincloud -i -t number13/mincloud`
 
 ### with [Virtualenv](https://github.com/pypa/virtualenv)
 Create a Virtualenv:
@@ -38,8 +38,11 @@ pip3 install gunicorn
 gunicorn --bind 127.0.0.1:8000 --workers=12 wsgi:myapp
 ```
 
-#### Deploy App for Production
- 
+### Deploy App for Production
+
+ Be sure to setup SSL-Encrytption!
+
+
  Change `SECRET_KEY` in `config.py` use a random for example:
  ```
  import os
@@ -55,7 +58,7 @@ gunicorn --bind 127.0.0.1:8000 --workers=12 wsgi:myapp
  
  
 
-#### Setup Nginx as Proxy
+### Setup Nginx as Proxy
 
 If not already installed, install nginx:
 `sudo apt-get update && apt-get install nginx`
@@ -85,3 +88,32 @@ server {
 Make it available: `sudo ln -s /etc/nginx/sites-available/YOURDOMAIN.NAME /etc/nginx/sites-enabled/`
 
 Reload Nginx: `sudo service nginx reload`
+
+## Built With
+Server Side:
+* [Flask](https://github.com/pallets/flask)
+
+Client Side:
+* [Bootstrap](https://github.com/twbs/bootstrap)
+* [jQuery](https://github.com/jquery/jquery)
+* [jQuery-File-Upload](https://github.com/blueimp/jQuery-File-Upload)
+* [Fontawesome](https://github.com/FortAwesome/Font-Awesome)
+
+
+## Authors
+
+* Johannes Kuehnel 
+* Joerg Hetzner
+
+## Versioning
+
+I try to use [SemVer](http://semver.org) as far as possible in my projects.
+
+## License
+
+This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) for details.
+
+## Acknowledgments
+
+* Thanks to [Miguel](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) for his awesome introduction to the Flask Microframework. 
+ 
