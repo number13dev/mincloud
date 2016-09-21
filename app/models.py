@@ -5,15 +5,18 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
+from app import helpers
 
 
 class File(db.Model):
+    __tablename__ = 'file'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), index=True)
     unique_id = db.Column(db.String(128), index=True, unique=True)
     size = db.Column(db.Integer)
     mimetype = db.Column(db.String(64))
     uploader_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    publickey = db.relationship('PublicKey', uselist=False, back_populates='file')
     upload_time = db.Column(db.Integer)
     dl_count = db.Column(db.Integer)
 
@@ -45,8 +48,24 @@ class File(db.Model):
         user = User.query.filter_by(id=self.uploader_id).first()
         return str(user.username)
 
+    @property
+    def public_hash(self):
+        if self.public_hash_id is not None:
+            pubkey = PublicKey.query.filter_by(id=self.public_hash_id).first()
+            return pubkey.hash
+        else:
+            return None
+
+    @property
+    def is_pub(self):
+        if self.public_hash_id is not None:
+            return True
+        else:
+            return False
+
 
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     _password = db.Column(db.String(64), index=True, unique=True)
@@ -87,3 +106,20 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+
+class PublicKey(db.Model):
+    __tablename__ = 'publickey'
+    id = db.Column(db.Integer, primary_key=True)
+    public = db.Column(db.Boolean())
+    hash = db.Column(db.String(128), index=True, unique=True)
+    file_id = db.Column(db.Integer, db.ForeignKey('file.id'))
+    file = db.relationship('File', back_populates='publickey')
+    dl_count = db.Column(db.Integer())
+
+    def __init__(self):
+        self.hash = helpers.b64_unique_id()
+        self.dl_count = 0
+
+
+

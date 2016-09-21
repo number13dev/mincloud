@@ -3,7 +3,7 @@ from flask import jsonify
 
 from app import db
 from app.models import User
-from app.msgs import responds
+from app.constants import responds
 from tests.test_base import BaseTest
 from tests.testhelper import login, add_new_user
 

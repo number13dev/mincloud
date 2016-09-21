@@ -1,36 +1,72 @@
 {%- macro render_element(file, fa_mimetype) %}
 <tr class="file-element" id="{{ file.unique_id }}">
-
-
-    <td>
+    <input type="hidden" name="uniqueid" value="{{ file.unique_id }}">
+    <td class="visible-lg">
         <div class="thumbnail">
             {%- if file.is_image %}
-            <img src="{{ request.host_url }}thumbs/{{ file.unique_id }}" alt="...">
+            <img src="{{ request.host_url }}{{ g.urls['THUMBS_FOLDER_URL'] }}/{{ file.unique_id }}" alt="...">
             {% endif -%}
             {%- if not file.is_image %}
             <center>{{ fa_mimetype(file.mimetype)|safe }}</center>
             {% endif -%}
         </div>
     </td>
-                <td>{{ file.name }}</td>
-                <td>{{ file.unique_id }}</td>
-                <td>{{ file.hr_size }}</td>
-                <td>{{ file.hr_time }}</td>
-                <td>{{ file.uploader_name }}</td>
-                <td>
-                <a id="link-{{ file.unique_id }}" href="{{ request.host_url }}uploads/{{ file.unique_id }}"
-                  class="btn btn-success" role="button">Download
-                    <span id="dlcount-{{ file.unique_id }}" class="badge">
-                        {{ file.dl_count }}
-                    </span>
-                </a>
-                {%- if g.user.admin or (g.user.id == file.uploader_id) %}
-                <form action="#" id="form-{{ file.unique_id }}">
-                    <input type="hidden" name="uniqueid" value="{{ file.unique_id }}">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-                {% endif -%}
-                </td>
+    <td>{{ file.name }}</td>
+    <td class="visible-lg">{{ file.unique_id }}</td>
+    <td>{{ file.hr_size }}</td>
+    <td class="visible-lg">{{ file.hr_time }}</td>
+    <td>{{ file.uploader_name }}</td>
+    <td>
 
+        <div class="btn-group-vertical">
+            <div class="btn-group">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="true">
+                    File Actions
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="dropdown-{{ file.unique_id }}" aria-labelledby="dropdownMenu1">
+                    {%- if g.user.admin or (g.user.id == file.uploader_id) %}
+                    <li>
+                        <a href="#" id="delete-{{ file.unique_id }}">
+                            <i class="fa fa-trash-o fa-fw"></i>&nbsp; {{ g.texts['DELETE_TEXT'] }}
+                        </a>
+                    </li>
+                    <li id="pubbutton-{{ file.unique_id }}">
+                        {%- if file.publickey %}
+                            {%- if file.publickey.public %}
+                            <a href="" id="unpub-{{ file.unique_id }}">
+                                <i class="fa fa-ban fa-fw" aria-hidden="true"></i>&nbsp; {{ g.texts['PUBLIC_DISABLE_TEXT'] }}
+                            </a>
+                            {%- else %}
+                            <a href="" id="pub-{{ file.unique_id }}">
+                                <i class="fa fa-share fa-fw" aria-hidden="true"></i>&nbsp; {{ g.texts['PUBLIC_ENABLE_TEXT'] }}
+                            </a>
+                            {% endif -%}
+                        {% else -%}
+                        <a href="" id="crpub-{{ file.unique_id }}">
+                            <i class="fa fa-share fa-fw" aria-hidden="true"></i>&nbsp; {{ g.texts['PUBLIC_CREATE_TEXT'] }}
+                        </a>
+                        {% endif -%}
+                    </li>
+                    {% endif -%}
+
+                    {%- if file.publickey %}
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="{{ request.host_url }}pub/dl/{{ file.publickey.hash }}">
+                            Public Link
+                            <span class="badge">{{ file.publickey.dl_count }}</span>
+                        </a>
+                    </li>
+                    {% endif -%}
+                </ul>
+            </div>
+            <a class="btn btn-success" id="link-{{ file.unique_id }}" href="{{ request.host_url }}uploads/{{ file.unique_id }}">
+                <i class="fa fa-download fa-fw" aria-hidden="true"></i>&nbsp; {{ g.texts['DOWNLOAD_TEXT'] }} &nbsp;
+                <span id="dlcount-{{ file.unique_id }}" class="badge">{{ file.dl_count }}</span>
+            </a>
+        </div>
+    </td>
 </tr>
 {% endmacro -%}

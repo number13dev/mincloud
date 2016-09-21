@@ -1,6 +1,6 @@
 from io import BytesIO
 
-from flask import json
+from flask import json, jsonify
 
 
 def change_account(cl, email, username, newpassword, oldpassword):
@@ -45,10 +45,17 @@ def upload_file(cl):
                    content_type='multipart/form-data')
 
 
-def delete_file(cl, id):
+def delete_file(cl, id): #does not work atm
     return cl.post('/api/delete', data=json.dumps(dict(uniqueid=id)), follow_redirects=True,
                    content_type='multipart/form-data')
 
 
 def logout(cl):
     return cl.get('/logout', follow_redirects=True)
+
+
+def make_file_public(cl, id):
+    data = json.dumps(dict(uniqueid=id))
+    return cl.post('/api/makepublic', data=data, follow_redirects=True,
+                   content_type='application/json')
+

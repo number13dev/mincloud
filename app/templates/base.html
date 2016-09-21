@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>MinCloud</title>
+    <title>{{ g.texts['MAIN_BRAND_TEXT'] }}</title>
 
     <!-- Styles -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -40,13 +40,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">MinCloud</a>
+            <a class="navbar-brand" href="#">{{ g.texts['MAIN_BRAND_TEXT'] }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                {{ render_topbaritem('index', 'Home', 'fa-home') }}
+                {{ render_topbaritem('index', g.texts['MAIN_HOME_TEXT'], 'fa-home') }}
                 {%- if g.user.is_authenticated %}
-                {{ render_topbaritem('upload', 'Upload', 'fa-cloud-upload') }}
+                {{ render_topbaritem('upload', g.texts['MAIN_UPLOAD_TEXT'], 'fa-cloud-upload') }}
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs fa-fw" aria-hidden="true">
                   </i>&nbsp; Settings
@@ -54,20 +54,20 @@
                   </a>
                   <ul class="dropdown-menu">
                       {%- if g.user.admin -%}
-                      {{ render_menuitem('adduser', 'Add User', 'fa-user-plus') }}
-                      {{ render_menuitem('showusers', 'Show Users', 'fa-users') }}
+                      {{ render_menuitem('adduser', g.texts['MAIN_ADDUSER_TEXT'], 'fa-user-plus') }}
+                      {{ render_menuitem('showusers', g.texts['MAIN_SHOW_USERS_TEXT'], 'fa-users') }}
                       {% endif -%}
-                      {{ render_menuitem('account', 'Account', 'fa-user') }}
+                      {{ render_menuitem('account', g.texts['MAIN_ACCOUNT_TEXT'], 'fa-user') }}
                       <!--<li role="separator" class="divider"></li>-->
                   </ul>
                 </li>
                 <li>
                 {% endif -%}
                     {%- if g.user.is_authenticated -%}
-                    {{ render_topbaritem('logout', 'Logout', 'fa-sign-out') }}
+                    {{ render_topbaritem('logout', g.texts['LOGOUT_TEXT'], 'fa-sign-out') }}
                     {% else %}
-                    {{ render_topbaritem('login', 'Login', 'fa-sign-in') }}
-                {% endif -%}
+                    {{ render_topbaritem('login', g.texts['LOGIN_TEXT'], 'fa-sign-in') }}
+                    {% endif -%}
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -81,5 +81,6 @@
 </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>$.fn.modal || document.write('<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}">\x3C/script>')</script>
+    <script src="//cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
     </body>
 </html>

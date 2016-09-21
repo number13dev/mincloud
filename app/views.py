@@ -8,20 +8,22 @@ from thumbnails import get_thumbnail
 
 from app import myapp, lm, db, csrf
 from app.forms import LoginForm, AddUser, EditUser
-from app.helpers import fa_mimetype
-from app.msgs import responds
-from .models import User, File
+from app.helpers import fa_mimetype, deliver_file
+from app.constants import responds, texts, urls, view_routes
+from .models import User, File, PublicKey
 
 
 @myapp.before_request
 def before_request():
     g.user = flask_login.current_user
     g.testing = myapp.config['TESTING']
+    g.texts = texts
+    g.urls = urls
 
 
 @csrf.error_handler
 def csrf_error(reason):
-    print("Error!!!!!" + reason)
+    print("Error! -> " + reason)
     return render_template('csrf_error.html', reason=reason)
 
 
@@ -38,7 +40,7 @@ def load_user(id):
 
 
 @myapp.route('/')
-@myapp.route('/index')
+@myapp.route(view_routes['INDEX'])
 def index():
     if g.user.is_authenticated:
         files = File.query.order_by(File.upload_time.desc())
@@ -47,13 +49,13 @@ def index():
         return render_template('index.html')
 
 
-@myapp.route('/upload')
+@myapp.route(view_routes['UPLOAD'])
 @flask_login.login_required
 def upload():
     return render_template('upload.html')
 
 
-@myapp.route('/thumbs/<uniqueid>')
+@myapp.route(view_routes['THUMBS'])
 @flask_login.login_required
 def get_thumb(uniqueid):
     upload_folder = myapp.config['UPLOAD_FOLDER']
@@ -66,29 +68,24 @@ def get_thumb(uniqueid):
         return
 
 
-@myapp.route('/uploads/<uniqueid>')
+@myapp.route(view_routes['UPLOADS'])
 @flask_login.login_required
 def uploaded_file(uniqueid):
-    upload_folder = myapp.config['UPLOAD_FOLDER']
     try:
         file = File.query.filter_by(unique_id=uniqueid).first()
-        path = os.path.join(upload_folder, file.unique_id)
-        file.dl_count += 1
-        db.session.commit()
-        filename = file.name
-        return send_from_directory(path, filename, as_attachment=True)
+        return deliver_file(file, request)
     except Exception:
         return jsonify(response=responds['BAD_REQUEST'])
 
 
-@myapp.route("/logout")
+@myapp.route(view_routes['LOGOUT'])
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
     return redirect(url_for('login'))
 
 
-@myapp.route('/account')
+@myapp.route(view_routes['ACCOUNT'])
 @flask_login.login_required
 def account():
     form = EditUser()
@@ -98,7 +95,7 @@ def account():
     return render_template('account.html', form=form)
 
 
-@myapp.route('/login', methods=['GET', 'POST'])
+@myapp.route(view_routes['LOGIN'], methods=['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('index'))
@@ -126,3 +123,20 @@ def login():
                            title='Sign In',
                            form=form
                            )
+
+
+@myapp.route(view_routes['PUB_DL'])
+def dl_public_file(uuid):
+    pubkey = PublicKey.query.filter_by(hash=uuid).first()
+
+    if pubkey is not None:
+        if pubkey.public:
+            if pubkey.file is not None:
+                pubkey.dl_count += 1
+                return deliver_file(pubkey.file, request)
+            else:
+                return abort(404)
+        else:
+            return abort(401)
+    else:
+        return abort(404)
