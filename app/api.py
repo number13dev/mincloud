@@ -153,7 +153,7 @@ def api_makepublic():
                     file.publickey = key
                     db.session.commit()
                     url = request.host_url + "pub/dl/" + key.hash
-                    button = get_sharebutton(file, 'ban', "Disable Public")
+                    button = get_sharebutton(file.publickey, 'ban', "Disable Public")
                     return jsonify(response=responds['PUBLIC_KEY_GENERATED'], url=url, button=button)
                 else:
                     url = request.host_url + "pub/dl/" + file.publickey.hash

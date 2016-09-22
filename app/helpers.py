@@ -21,9 +21,9 @@ sharebutton = {"ban": """<i class="fa fa-ban fa-fw" aria-hidden="true"></i>""",
                }
 
 
-def get_sharebutton(file, type, text):
+def get_sharebutton(pubkey, type, text):
     icon = sharebutton[type]
-    return """<a hr ef="" id="unpub-""" + file.hash + ">""" + icon + text + """</a>"""
+    return """<a href="" id="unpub-""" + pubkey.hash + ">""" + icon + text + """</a>"""
 
 
 def fa_mimetype(t):
