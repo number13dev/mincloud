@@ -101,7 +101,8 @@ def _upload():
 
         if file.filename == '':
             return redirect(request.url)
-        if file and allowed_file(file.filename):
+        if file:
+            #and allowed_file(file.filename)
 
             save_dir = os.path.join(upload_folder, directory)
 
