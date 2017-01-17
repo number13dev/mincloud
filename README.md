@@ -9,7 +9,7 @@ groups and users, which prefer simplicity over extensive features.
 ## Getting Started
 ### with [Docker](https://hub.docker.com/r/number13/mincloud/)
 
-Run: `docker run -p 8000:8000 -v /YOURLOCALPATH:/opt/mincloud -i -t number13/mincloud`
+Run: `docker run -p 80:80 -v /YOURLOCALPATH:/opt/mincloud -i -t number13/mincloud`
 
 ### with [Virtualenv](https://github.com/pypa/virtualenv)
 Create a Virtualenv:

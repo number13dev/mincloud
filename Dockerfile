@@ -14,5 +14,5 @@ WORKDIR /mincloud
 RUN pip3 install -r requirements.txt
 RUN chmod +x run.sh
 
-EXPOSE 8000
+EXPOSE 80
 CMD ["/mincloud/run.sh"]
