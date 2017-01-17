@@ -23,7 +23,7 @@ class ProductionConfig(Config):
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     WTF_CSRF_ENABLED = True
-    SECRET_KEY = 'PRODUCTION_SECRET_KEY'
+    SECRET_KEY = '{{SECRET_KEY}}'
     DEBUG = False
 
 class DevelopmentConfig(Config):
@@ -32,12 +32,12 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     WTF_CSRF_ENABLED = True
-    SECRET_KEY = 'DEVELOPMENT_SECRET_KEY'
+    SECRET_KEY = '{{SECRET_KEY}}'
     DEBUG = False
 
 
 class TestConfiguration(Config):
-    SECRET_KEY = 'TEST_SECRET_KEY'
+    SECRET_KEY = '{{SECRET_KEY}}'
     _cwd = dirname(abspath(__file__))
     UPLOAD_FOLDER = os.path.join(_cwd, 'uploadtest')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
